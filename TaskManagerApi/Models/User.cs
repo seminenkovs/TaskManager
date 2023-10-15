@@ -11,6 +11,7 @@ public class User
     public DateTime RegistrationDate { get; set; }
     public DateTime LastLoginDate { get; set; }
     public byte[] Photo { get; set; }
+    public UserStatus Status { get; set; }
 
     public List<Project> Projects { get; set; } = new List<Project>();
     public List<Desk> Desks { get; set; } = new List<Desk>();
