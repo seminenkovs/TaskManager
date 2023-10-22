@@ -33,4 +33,20 @@ public class User
         Photo = photo;
         Status = status;
     }
+
+    public UserModel ToDto()
+    {
+        return new UserModel()
+        {
+            Id = this.Id,
+            FirstName = this.FirstName,
+            LastName = this.LastName,
+            Email = this.Email,
+            Password = this.Password,
+            Phone = this.Phone,
+            RegistrationDate = this.RegistrationDate,
+            Status = this.Status,
+            Photo = this.Photo
+    };
+    }
 }
