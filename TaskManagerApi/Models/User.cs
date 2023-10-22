@@ -1,4 +1,6 @@
-﻿namespace TaskManagerApi.Models;
+﻿using TaskManager.Common.Models;
+
+namespace TaskManagerApi.Models;
 
 public class User
 {

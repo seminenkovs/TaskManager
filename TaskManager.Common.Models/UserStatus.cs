@@ -1,5 +1,4 @@
-﻿namespace TaskManagerApi.Models
-{
+﻿namespace TaskManager.Common.Models;
     public enum UserStatus
     {
         Admin,
