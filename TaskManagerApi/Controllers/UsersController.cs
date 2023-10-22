@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Common.Models;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Controllers
@@ -16,10 +18,16 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult CreateUser([FromBody] object userModel)
+        public IActionResult CreateUser([FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
+                User newUser = new User(userModel.FirstName, userModel.LastName,
+                    userModel.Email, userModel.Password, userModel.Status,
+                    userModel.Phone, userModel.Photo);
+
+                _db.Users.Add(newUser);
+                _db.SaveChanges();
                 return Ok();
             }
             return BadRequest();
