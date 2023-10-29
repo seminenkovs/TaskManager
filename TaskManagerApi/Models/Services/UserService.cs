@@ -1,13 +1,14 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
 
-public class UserServices
+public class UserService
 {
     private readonly ApplicationContext _db;
 
-    public UserServices(ApplicationContext db)
+    public UserService(ApplicationContext db)
     {
         _db = db;
     }
@@ -34,5 +35,28 @@ public class UserServices
     {
         var user = _db.Users.FirstOrDefault(u => u.Email == login && u.Password == password);
         return user;
+    }
+
+    public ClaimsIdentity GetIdentity(string username, string password)
+    {
+        User currentUser = GetUser(username, password);
+        if (currentUser != null)
+        {
+            currentUser.LastLoginDate = DateTime.Now;
+            _db.Users.Update(currentUser);
+            _db.SaveChanges();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, currentUser.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, currentUser.Status.ToString())
+            };
+            ClaimsIdentity claimsIdentity = 
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
+        }
+
+        return null;
     }
 }
