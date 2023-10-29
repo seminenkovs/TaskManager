@@ -90,6 +90,7 @@ namespace TaskManagerApi.Controllers
             return  await _db.Users.Select(u => u.ToDto()).ToListAsync();
         }
 
+        [HttpPost("create/all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels)
         {
             if (userModels != null && userModels.Count > 0)
