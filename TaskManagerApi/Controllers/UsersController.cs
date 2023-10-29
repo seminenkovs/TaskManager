@@ -39,5 +39,31 @@ namespace TaskManagerApi.Controllers
 
             return BadRequest();
         }
+        [HttpPatch("{id}/update")]
+        public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
+        {
+            if (userModel != null)
+            {
+                User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
+                if (userForUpdate != null)
+                {
+                    userForUpdate.FirstName  = userModel.FirstName;
+                    userForUpdate.LastName = userModel.LastName;
+                    userForUpdate.Password = userModel.Password;
+                    userForUpdate.Phone = userModel.Phone;
+                    userForUpdate.Photo = userModel.Photo;
+                    userForUpdate.Status = userModel.Status;
+                    userForUpdate.Email = userModel.Email;
+
+                    _db.Users.Update(userForUpdate);
+                    _db.SaveChanges();
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+
+            return BadRequest();
+        }
     }
 }
