@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Data;
@@ -66,7 +67,7 @@ namespace TaskManagerApi.Controllers
             return BadRequest();
         }
 
-        [HttpPatch("delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public IActionResult DeleteUser(int id)
         {
             User userForDelete = _db.Users.FirstOrDefault(u =>u.Id == id);
@@ -77,6 +78,12 @@ namespace TaskManagerApi.Controllers
                 return Ok();
             }
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<UserModel>> GetUsers()
+        {
+            return  await _db.Users.Select(u => u.ToDto()).ToListAsync();
         }
     }
 }
