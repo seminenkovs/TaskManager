@@ -35,6 +35,7 @@ namespace TaskManagerApi.Controllers
 
                 _db.Users.Add(newUser);
                 _db.SaveChanges();
+
                 return Ok();
             }
 
@@ -58,6 +59,7 @@ namespace TaskManagerApi.Controllers
 
                     _db.Users.Update(userForUpdate);
                     _db.SaveChanges();
+
                     return Ok();
                 }
 
@@ -75,8 +77,10 @@ namespace TaskManagerApi.Controllers
             {
                 _db.Users.Remove(userForDelete);
                 _db.SaveChanges();
+
                 return Ok();
             }
+
             return NotFound();
         }
 
@@ -84,6 +88,20 @@ namespace TaskManagerApi.Controllers
         public async Task<IEnumerable<UserModel>> GetUsers()
         {
             return  await _db.Users.Select(u => u.ToDto()).ToListAsync();
+        }
+
+        public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels)
+        {
+            if (userModels != null && userModels.Count > 0)
+            {
+                var newUsers = userModels.Select(u => new User(u));
+                _db.Users.AddRange(newUsers);
+                await _db.SaveChangesAsync();
+
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

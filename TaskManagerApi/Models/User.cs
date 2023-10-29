@@ -34,6 +34,18 @@ public class User
         Status = status;
     }
 
+    public User(UserModel model) 
+    {
+        Id = model.Id;
+        FirstName = model.FirstName;
+        LastName = model.LastName;
+        Email = model.Email;
+        Password = model.Password;
+        Phone = model.Phone;
+        RegistrationDate = model.RegistrationDate;
+        Status = model.Status;
+        Photo = model.Photo;
+    }
     public UserModel ToDto()
     {
         return new UserModel()
