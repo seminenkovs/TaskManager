@@ -17,6 +17,12 @@ namespace TaskManagerApi.Controllers
             _db = db;
         }
 
+        [HttpGet("test")]
+        public IActionResult TestApi()
+        {
+            return Ok("Hello World");
+        }
+
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] UserModel userModel)
         {
@@ -30,6 +36,7 @@ namespace TaskManagerApi.Controllers
                 _db.SaveChanges();
                 return Ok();
             }
+
             return BadRequest();
         }
     }

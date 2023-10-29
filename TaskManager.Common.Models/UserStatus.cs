@@ -1,4 +1,5 @@
-﻿namespace TaskManager.Common.Models;
+﻿namespace TaskManager.Common.Models
+{
     public enum UserStatus
     {
         Admin,

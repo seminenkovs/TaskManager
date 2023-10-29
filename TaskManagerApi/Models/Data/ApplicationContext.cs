@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.Common.Models;
 
 namespace TaskManagerApi.Models.Data;
 
@@ -14,7 +15,7 @@ public class ApplicationContext : DbContext
     {
         Database.EnsureCreated();
 
-        if (this.Users.Any(u => u.Status == UserStatus.Admin) == false)
+        if (Users.Any(u => u.Status == UserStatus.Admin) == false)
         {
             var admin = new User("Vitalii", "Semi", "admin", "User@123", UserStatus.Admin);
             Users.Add(admin);
