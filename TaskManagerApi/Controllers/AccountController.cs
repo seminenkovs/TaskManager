@@ -29,6 +29,7 @@ namespace TaskManagerApi.Controllers
             return NotFound();
         }
 
+        [HttpPost("token")]
         public IActionResult GetToken()
         {
 
