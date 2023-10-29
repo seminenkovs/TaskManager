@@ -39,7 +39,7 @@ namespace TaskManagerApi.Controllers
 
             return BadRequest();
         }
-        [HttpPatch("{id}/update")]
+        [HttpPatch("update/{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
         {
             if (userModel != null)
@@ -64,6 +64,19 @@ namespace TaskManagerApi.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpPatch("delete/{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            User userForDelete = _db.Users.FirstOrDefault(u =>u.Id == id);
+            if (userForDelete != null)
+            {
+                _db.Users.Remove(userForDelete);
+                _db.SaveChanges();
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }
