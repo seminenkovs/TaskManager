@@ -1,46 +1,54 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Data;
+using TaskManagerApi.Models.Services;
 
 namespace TaskManagerApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly ApplicationContext _db;
+        private readonly UserService _userService;
 
         public UsersController(ApplicationContext db)
         {
             _db = db;
+            _userService = new UserService(db);
         }
 
+        #region Only for testing
+
+        [AllowAnonymous]
         [HttpGet("test")]
         public IActionResult TestApi()
         {
             return Ok("Hello World");
         }
 
+        #endregion
+
+
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
-                User newUser = new User(userModel.FirstName, userModel.LastName,
-                    userModel.Email, userModel.Password, userModel.Status,
-                    userModel.Phone, userModel.Photo);
+                bool result = _userService.Create(userModel);
 
-                _db.Users.Add(newUser);
-                _db.SaveChanges();
-
-                return Ok();
+                return result ? Ok() : NotFound();
             }
 
             return BadRequest();
         }
+
+        
         [HttpPatch("update/{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
         {

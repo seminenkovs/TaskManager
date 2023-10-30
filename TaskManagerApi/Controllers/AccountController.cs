@@ -24,6 +24,7 @@ namespace TaskManagerApi.Controllers
             _userService = new UserService(db);
         }
 
+        [Authorize]
         [HttpGet("info")]
         public IActionResult GetCurrentUserInfo()
         {
