@@ -71,19 +71,40 @@ public class UserService : ICommonService<UserModel>
 
             _db.Users.Add(newUser);
             _db.SaveChanges();
+            return true;
         }
         catch (Exception e)
         {
             return false;
         }
-        
-
-        return true;
     }
 
     public bool Update(int id, UserModel model)
     {
-        throw new NotImplementedException();
+        User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
+        if (userForUpdate != null)
+        {
+            try
+            {
+                userForUpdate.FirstName = model.FirstName;
+                userForUpdate.LastName = model.LastName;
+                userForUpdate.Password = model.Password;
+                userForUpdate.Phone = model.Phone;
+                userForUpdate.Photo = model.Photo;
+                userForUpdate.Status = model.Status;
+                userForUpdate.Email = model.Email;
+
+                _db.Users.Update(userForUpdate);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public bool Delete(int id, UserModel model)

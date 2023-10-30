@@ -34,8 +34,7 @@ namespace TaskManagerApi.Controllers
 
         #endregion
 
-
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateUser([FromBody] UserModel userModel)
         {
             if (userModel != null)
@@ -48,36 +47,20 @@ namespace TaskManagerApi.Controllers
             return BadRequest();
         }
 
-        
-        [HttpPatch("update/{id}")]
+        [HttpPatch("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
-                User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
-                if (userForUpdate != null)
-                {
-                    userForUpdate.FirstName  = userModel.FirstName;
-                    userForUpdate.LastName = userModel.LastName;
-                    userForUpdate.Password = userModel.Password;
-                    userForUpdate.Phone = userModel.Phone;
-                    userForUpdate.Photo = userModel.Photo;
-                    userForUpdate.Status = userModel.Status;
-                    userForUpdate.Email = userModel.Email;
+                bool result = _userService.Update(id, userModel);
 
-                    _db.Users.Update(userForUpdate);
-                    _db.SaveChanges();
-
-                    return Ok();
-                }
-
-                return NotFound();
+                return result ? Ok() : NotFound();
             }
 
             return BadRequest();
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
             User userForDelete = _db.Users.FirstOrDefault(u =>u.Id == id);
@@ -98,7 +81,7 @@ namespace TaskManagerApi.Controllers
             return  await _db.Users.Select(u => u.ToDto()).ToListAsync();
         }
 
-        [HttpPost("create/all")]
+        [HttpPost("all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModels)
         {
             if (userModels != null && userModels.Count > 0)
