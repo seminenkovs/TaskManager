@@ -1,7 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models;
 using TaskManagerApi.Models.Data;
 using TaskManagerApi.Models.Services;
@@ -59,6 +61,35 @@ namespace TaskManagerApi.Controllers
                 username = identity.Name
             };
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPatch("update")]
+        public IActionResult UpdateUser([FromBody] UserModel userModel)
+        {
+            if (userModel != null)
+            {
+                string username = HttpContext.User.Identity.Name;
+
+                User userForUpdate = _db.Users.FirstOrDefault(u => u.Email == username);
+                if (userForUpdate != null)
+                {
+                    userForUpdate.FirstName = userModel.FirstName;
+                    userForUpdate.LastName = userModel.LastName;
+                    userForUpdate.Password = userModel.Password;
+                    userForUpdate.Phone = userModel.Phone;
+                    userForUpdate.Photo = userModel.Photo;
+
+                    _db.Users.Update(userForUpdate);
+                    _db.SaveChanges();
+
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+
+            return BadRequest();
         }
     }
 }
