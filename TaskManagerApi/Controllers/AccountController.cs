@@ -15,13 +15,13 @@ namespace TaskManagerApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ApplicationContext _db;
-        private readonly UserService _userService;
+        private readonly UsersService _usersService;
 
 
         public AccountController(ApplicationContext db)
         {
             _db = db;
-            _userService = new UserService(db);
+            _usersService = new UsersService(db);
         }
 
         [Authorize]
@@ -42,10 +42,10 @@ namespace TaskManagerApi.Controllers
         [HttpPost("token")]
         public IActionResult GetToken()
         {
-            var userData = _userService.GetUserLoginPassFromBasicAuth(Request);
+            var userData = _usersService.GetUserLoginPassFromBasicAuth(Request);
             var login = userData.Item1;
             var pass = userData.Item2;
-            var identity = _userService.GetIdentity(login,pass);
+            var identity = _usersService.GetIdentity(login,pass);
             var now =DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
                 issuer:AuthOptions.ISSUER,

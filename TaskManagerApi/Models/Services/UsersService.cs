@@ -6,11 +6,11 @@ using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
 
-public class UserService : ICommonService<UserModel>
+public class UsersService : ICommonService<UserModel>
 {
     private readonly ApplicationContext _db;
 
-    public UserService(ApplicationContext db)
+    public UsersService(ApplicationContext db)
     {
         _db = db;
     }
