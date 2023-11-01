@@ -63,16 +63,8 @@ namespace TaskManagerApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            User userForDelete = _db.Users.FirstOrDefault(u =>u.Id == id);
-            if (userForDelete != null)
-            {
-                _db.Users.Remove(userForDelete);
-                _db.SaveChanges();
-
-                return Ok();
-            }
-
-            return NotFound();
+            bool result = _userService.Delete(id);
+            return result ? Ok() : NotFound();
         }
 
         [HttpGet]
