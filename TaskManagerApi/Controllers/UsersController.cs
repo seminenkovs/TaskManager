@@ -78,11 +78,8 @@ namespace TaskManagerApi.Controllers
         {
             if (userModels != null && userModels.Count > 0)
             {
-                var newUsers = userModels.Select(u => new User(u));
-                _db.Users.AddRange(newUsers);
-                await _db.SaveChangesAsync();
-
-                return Ok();
+                bool result = _userService.CreateMultipleUsers(userModels);
+                return result ? Ok() : NotFound();
             }
 
             return BadRequest();

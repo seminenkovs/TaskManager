@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Text;
 using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
@@ -121,8 +122,26 @@ public class UserService : ICommonService<UserModel>
             }
             catch (Exception e)
             {
-                return false
+                return false;
             }
+        }
+
+        return false;
+    }
+
+    public bool CreateMultipleUsers(List<UserModel> userModels)
+    {
+        try
+        {
+            var newUsers = userModels.Select(u => new User(u));
+            _db.Users.AddRange(newUsers);
+            _db.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
         }
 
         return false;
