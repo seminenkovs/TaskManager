@@ -3,7 +3,7 @@ using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
 
-public class ProjectsService : ICommonService<ProjectModel>
+public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
 {
     private readonly ApplicationContext _db;
 
@@ -13,7 +13,11 @@ public class ProjectsService : ICommonService<ProjectModel>
     }
     public bool Create(ProjectModel model)
     {
-        throw new NotImplementedException();
+        bool result =  DoAction(delegate ()
+        {
+            Project newProject = new Project();
+        });
+        return result;
     }
 
     public bool Delete(int id)

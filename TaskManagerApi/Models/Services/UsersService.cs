@@ -73,7 +73,6 @@ public class UsersService : AbstractionService, ICommonService<UserModel>
             _db.Users.Add(newUser);
             _db.SaveChanges();
         });
-        
     }
 
     public bool Update(int id, UserModel model)
