@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
+using TaskManagerApi.Models;
 using TaskManagerApi.Models.Data;
 using TaskManagerApi.Models.Services;
 
@@ -35,7 +36,17 @@ namespace TaskManagerApi.Controllers
         {
             if (projectModel != null)
             {
-
+                var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+                if (user != null)
+                {
+                    var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == user.Id);
+                    if (admin == null)
+                    {
+                        admin = new ProjectAdmin(user);
+                        _db.ProjectAdmins.Add(admin);
+                    }
+                    projectModel.AdminId = admin.Id;
+                }
                 bool result = _projectsService.Create(projectModel);
 
                 return result ? Ok() : NotFound();
