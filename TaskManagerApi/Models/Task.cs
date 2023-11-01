@@ -7,7 +7,6 @@
         public DateTime EndDate { get; set; }
         public byte[] File { get; set; }
         public string Column { get; set; }
-
         public int? CreatorId { get; set; }
         public User Creator { get; set; }
         public int? ExecutorId { get; set; }
