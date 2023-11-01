@@ -131,19 +131,24 @@ public class UserService : ICommonService<UserModel>
 
     public bool CreateMultipleUsers(List<UserModel> userModels)
     {
+        return DoAction(delegate()
+            {
+                var newUsers = userModels.Select(u => new User(u));
+                _db.Users.AddRange(newUsers);
+                _db.SaveChangesAsync();
+            });
+    }
+
+    private bool DoAction(Action action)
+    {
         try
         {
-            var newUsers = userModels.Select(u => new User(u));
-            _db.Users.AddRange(newUsers);
-            _db.SaveChangesAsync();
-
+            action.Invoke();
             return true;
         }
         catch (Exception e)
         {
             return false;
         }
-
-        return false;
     }
 }
