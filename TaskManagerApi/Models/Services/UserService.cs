@@ -107,8 +107,24 @@ public class UserService : ICommonService<UserModel>
         return false;
     }
 
-    public bool Delete(int id, UserModel model)
+    public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        User userForDelete = _db.Users.FirstOrDefault(u => u.Id == id);
+        if (userForDelete != null)
+        {
+            try
+            {
+                _db.Users.Remove(userForDelete);
+                _db.SaveChanges();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false
+            }
+        }
+
+        return false;
     }
 }
