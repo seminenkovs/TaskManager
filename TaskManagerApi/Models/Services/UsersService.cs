@@ -6,7 +6,7 @@ using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
 
-public class UsersService : ICommonService<UserModel>
+public class UsersService : AbstractionService, ICommonService<UserModel>
 {
     private readonly ApplicationContext _db;
 
@@ -122,18 +122,5 @@ public class UsersService : ICommonService<UserModel>
             _db.Users.AddRange(newUsers);
             _db.SaveChangesAsync();
         });
-    }
-
-    private bool DoAction(Action action)
-    {
-        try
-        {
-            action.Invoke();
-            return true;
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
     }
 }
