@@ -39,6 +39,12 @@ public class UsersService : AbstractionService, ICommonService<UserModel>
         return user;
     }
 
+    public User GetUser(string login)
+    {
+        var user = _db.Users.FirstOrDefault(u => u.Email == login);
+        return user;
+    }
+
     public ClaimsIdentity GetIdentity(string username, string password)
     {
         User currentUser = GetUser(username, password);
