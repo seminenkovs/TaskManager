@@ -64,7 +64,7 @@ public class UserService : ICommonService<UserModel>
 
     public bool Create(UserModel model)
     {
-        try
+        return DoAction(delegate()
         {
             User newUser = new User(model.FirstName, model.LastName,
                 model.Email, model.Password, model.Status,
@@ -72,12 +72,8 @@ public class UserService : ICommonService<UserModel>
 
             _db.Users.Add(newUser);
             _db.SaveChanges();
-            return true;
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
+        });
+        
     }
 
     public bool Update(int id, UserModel model)
@@ -85,7 +81,7 @@ public class UserService : ICommonService<UserModel>
         User userForUpdate = _db.Users.FirstOrDefault(u => u.Id == id);
         if (userForUpdate != null)
         {
-            try
+            return DoAction(delegate()
             {
                 userForUpdate.FirstName = model.FirstName;
                 userForUpdate.LastName = model.LastName;
@@ -97,12 +93,7 @@ public class UserService : ICommonService<UserModel>
 
                 _db.Users.Update(userForUpdate);
                 _db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            });
         }
 
         return false;
@@ -113,17 +104,11 @@ public class UserService : ICommonService<UserModel>
         User userForDelete = _db.Users.FirstOrDefault(u => u.Id == id);
         if (userForDelete != null)
         {
-            try
+            return DoAction(delegate ()
             {
                 _db.Users.Remove(userForDelete);
                 _db.SaveChanges();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            });
         }
 
         return false;
@@ -132,11 +117,11 @@ public class UserService : ICommonService<UserModel>
     public bool CreateMultipleUsers(List<UserModel> userModels)
     {
         return DoAction(delegate()
-            {
-                var newUsers = userModels.Select(u => new User(u));
-                _db.Users.AddRange(newUsers);
-                _db.SaveChangesAsync();
-            });
+        {
+            var newUsers = userModels.Select(u => new User(u));
+            _db.Users.AddRange(newUsers);
+            _db.SaveChangesAsync();
+        });
     }
 
     private bool DoAction(Action action)
