@@ -119,6 +119,12 @@ public class UsersService : AbstractionService, ICommonService<UserModel>
         return false;
     }
 
+    public UserModel Get(int id)
+    {
+        User user = _db.Users.FirstOrDefault(u => u.Id == id);
+        return user.ToDto();
+    }
+
     public bool CreateMultipleUsers(List<UserModel> userModels)
     {
         return DoAction(delegate()
