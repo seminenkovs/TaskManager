@@ -1,4 +1,5 @@
-﻿using TaskManager.Common.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
@@ -39,6 +40,25 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
     {
         Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
         return project?.ToDto();
+    }
+
+    public List<ProjectModel> GetByUserId(int userId)
+    {
+        List<ProjectModel> result = new List<ProjectModel>();
+        var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == userId);
+        if (admin != null)
+        {
+            var projectsForAdmin = _db.Projects.Where(p => p.AdminId == userId)
+                .Select(p => p.ToDto());
+            result.AddRange(projectsForAdmin);
+        }
+
+        var projectsForUsers = _db.Projects.Include(p => p.AllUsers)
+            .Where(p => p.AllUsers.Any(u => u.Id == userId))
+            .Select(p => p.ToDto());
+        result.AddRange(projectsForUsers);
+
+        return result;
     }
 
     public bool Update(int id, ProjectModel model)
