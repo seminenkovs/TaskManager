@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Common.Models;
@@ -26,6 +27,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<ProjectModel>> Get()
         {
             return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
@@ -46,19 +48,22 @@ namespace TaskManagerApi.Controllers
                 var user = _usersService.GetUser(HttpContext.User.Identity.Name);
                 if (user != null)
                 {
-                    var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == user.Id);
-                    if (admin == null)
+                    if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
                     {
-                        admin = new ProjectAdmin(user);
-                        _db.ProjectAdmins.Add(admin);
+                        var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == user.Id);
+                        if (admin == null)
+                        {
+                            admin = new ProjectAdmin(user);
+                            _db.ProjectAdmins.Add(admin);
+                        }
+                        projectModel.AdminId = admin.Id;
+
+                        bool result = _projectsService.Create(projectModel);
+                        return result ? Ok() : NotFound();
                     }
-                    projectModel.AdminId = admin.Id;
                 }
-                bool result = _projectsService.Create(projectModel);
-
-                return result ? Ok() : NotFound();
+                return Unauthorized();
             }
-
             return BadRequest();
         }
 
