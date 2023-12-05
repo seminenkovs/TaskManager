@@ -31,6 +31,13 @@ namespace TaskManagerApi.Controllers
             return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var project = _projectsService.Get(id);
+            return project == null ? NotFound() : Ok(project);
+        }
+
         [HttpPost]
         public IActionResult Create([FromBody] ProjectModel projectModel)
         {
