@@ -61,6 +61,11 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         return result;
     }
 
+    public List<ProjectModel> GetAll()
+    {
+        return _db.Projects.Select(p => p.ToDto()).ToList();
+    }
+
     public bool Update(int id, ProjectModel model)
     {
         bool result = DoAction(delegate ()

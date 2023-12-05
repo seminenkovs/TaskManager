@@ -27,9 +27,13 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<ProjectModel>> Get()
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user.Status == UserStatus.Admin)
+            {
+
+            }
             return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
         }
 
