@@ -72,11 +72,17 @@ namespace TaskManagerApi.Controllers
         {
             if (projectModel != null)
             {
-                bool result = _projectsService.Update(id, projectModel);
-
-                return result ? Ok() : NotFound();
+                var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+                if (user != null)
+                {
+                    if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
+                    {
+                        bool result = _projectsService.Update(id, projectModel);
+                        return result ? Ok() : NotFound();
+                    }
+                    return Unauthorized();
+                }
             }
-
             return BadRequest();
         }
 
