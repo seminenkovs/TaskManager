@@ -29,7 +29,7 @@ namespace TaskManagerApi.Controllers
         [HttpGet("test")]
         public IActionResult TestApi()
         {
-            return Ok("Hello World");
+            return Ok("Server started. Start time: " + DateTime.Now);
         }
 
         #endregion

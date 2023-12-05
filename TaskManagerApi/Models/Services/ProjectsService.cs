@@ -38,7 +38,7 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
     public ProjectModel Get(int id)
     {
         Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
-        return project.ToDto();
+        return project?.ToDto();
     }
 
     public bool Update(int id, ProjectModel model)

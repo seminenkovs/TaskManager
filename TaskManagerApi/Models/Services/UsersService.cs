@@ -122,7 +122,7 @@ public class UsersService : AbstractionService, ICommonService<UserModel>
     public UserModel Get(int id)
     {
         User user = _db.Users.FirstOrDefault(u => u.Id == id);
-        return user.ToDto();
+        return user?.ToDto();
     }
 
     public bool CreateMultipleUsers(List<UserModel> userModels)
