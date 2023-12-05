@@ -28,7 +28,7 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         bool result = DoAction(delegate()
         {
             Project newProject = _db.Projects.FirstOrDefault(p => p.Id == id);
-            _db.Projects.Add(newProject);
+            _db.Projects.Remove(newProject);
             _db.SaveChanges();
         });
 
@@ -45,7 +45,7 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
             newProject.Photo = model.Photo;
             newProject.Status = model.Status;
             newProject.AdminId = model.AdminId;
-            _db.Projects.Add(newProject);
+            _db.Projects.Update(newProject);
             _db.SaveChanges();
         });
 
