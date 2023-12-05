@@ -42,7 +42,7 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         return project?.ToDto();
     }
 
-    public List<ProjectModel> GetByUserId(int userId)
+    public async Task<List<ProjectModel>> GetByUserId(int userId)
     {
         List<ProjectModel> result = new List<ProjectModel>();
         var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == userId);
@@ -61,9 +61,9 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         return result;
     }
 
-    public List<ProjectModel> GetAll()
+    public async Task<IEnumerable<ProjectModel>> GetAll()
     {
-        return _db.Projects.Select(p => p.ToDto()).ToList();
+        return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
     }
 
     public bool Update(int id, ProjectModel model)

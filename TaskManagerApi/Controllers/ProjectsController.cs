@@ -32,7 +32,11 @@ namespace TaskManagerApi.Controllers
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             if (user.Status == UserStatus.Admin)
             {
-
+                return await _projectsService.GetAll();
+            }
+            else
+            {
+                return await _projectsService.GetByUserId(user.Id);
             }
             return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
         }
