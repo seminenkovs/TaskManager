@@ -114,6 +114,7 @@ namespace TaskManagerApi.Controllers
                         var project = _projectsService.Get(id);
                         var usersForAdd = _usersService.GetAllByIds(usersIds);
                         project.AllUsers.AddRange(usersForAdd);
+                        _db.SaveChanges();
                     }
                     return Unauthorized();
                 }
