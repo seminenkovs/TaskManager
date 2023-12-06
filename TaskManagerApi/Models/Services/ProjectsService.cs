@@ -83,10 +83,14 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         return result;
     }
 
-    public void AddUsersToProject(int id, IEnumerable<User> usersModels)
+    public void AddUsersToProject(int id, List<int> usersIds)
     {
-        var project = _db.Projects.FirstOrDefault(p => p.Id == id);
-        project.AllUsers.AddRange(usersModels);
+        Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+        foreach (var usersId in usersIds)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Id == usersId);
+            project.AllUsers.Add(user);
+        }
         _db.SaveChanges();
     }
 }
