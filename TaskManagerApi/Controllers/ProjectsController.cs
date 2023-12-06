@@ -130,7 +130,7 @@ namespace TaskManagerApi.Controllers
                 {
                     if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
                     {
-                        _projectsService.AddUsersToProject(id, usersIds);
+                        _projectsService.RemoveUsersFromProject(id, usersIds);
                         return Ok();
                     }
                     return Unauthorized();
