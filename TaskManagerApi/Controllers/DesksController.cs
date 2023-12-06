@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 using TaskManagerApi.Models.Services;
 
@@ -21,34 +22,29 @@ namespace TaskManagerApi.Controllers
             _usersService = usersService;
         }
 
-
-        // GET: api/<DesksController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<CommonModel>> GetDesksForCurrentUser()
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<DesksController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<DesksController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Create([FromBody] DeskModel deskModel)
         {
         }
 
-        // PUT api/<DesksController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch("{id}")]
+        public void Put(int id, [FromBody] DeskModel deskModel)
         {
         }
 
-        // DELETE api/<DesksController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
