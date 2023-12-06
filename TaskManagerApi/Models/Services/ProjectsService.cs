@@ -96,11 +96,14 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
 
     public void RemoveUsersFromProject(int id, List<int> usersIds)
     {
-        Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+        Project project = _db.Projects.Include(p => p.AllUsers).FirstOrDefault(p => p.Id == id);
         foreach (var usersId in usersIds)
         {
             var user = _db.Users.FirstOrDefault(u => u.Id == usersId);
-            project.AllUsers.Remove(user);
+            if (project.AllUsers.Contains(user))
+            {
+                project.AllUsers.Remove(user);
+            }
         }
         _db.SaveChanges();
     }
