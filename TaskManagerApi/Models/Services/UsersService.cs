@@ -134,4 +134,13 @@ public class UsersService : AbstractionService, ICommonService<UserModel>
             _db.SaveChangesAsync();
         });
     }
+
+    public IEnumerable<UserModel> GetAllByIds(List<int> usersIds)
+    {
+        foreach (var id in usersIds)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Id == id).ToDto();
+            yield return user;
+        }
+    }
 }

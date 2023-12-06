@@ -100,5 +100,25 @@ namespace TaskManagerApi.Controllers
 
             return result ? Ok() : NotFound();
         }
+
+        [HttpPatch("{id}/users")]
+        public IActionResult AddUsersToProject(int id, [FromBody] List<int> usersIds)
+        {
+            if (usersIds != null)
+            {
+                var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+                if (user != null)
+                {
+                    if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
+                    {
+                        var project = _projectsService.Get(id);
+                        var usersForAdd = _usersService.GetAllByIds();
+                        project.AllUsers.AddRange();
+                    }
+                    return Unauthorized();
+                }
+            }
+            return BadRequest();
+        }
     }
 }
