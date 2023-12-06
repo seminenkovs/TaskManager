@@ -42,28 +42,28 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         return project?.ToDto();
     }
 
-    public async Task<List<ProjectModel>> GetByUserId(int userId)
+    public async Task<IEnumerable<ProjectModel>> GetByUserId(int userId)
     {
         List<ProjectModel> result = new List<ProjectModel>();
         var admin = _db.ProjectAdmins.FirstOrDefault(a => a.UserId == userId);
         if (admin != null)
         {
-            var projectsForAdmin = _db.Projects.Where(p => p.AdminId == userId)
-                .Select(p => p.ToDto());
+            var projectsForAdmin = await _db.Projects.Where(p => p.AdminId == admin.Id)
+                .Select(p => p.ToDto()).ToListAsync();
             result.AddRange(projectsForAdmin);
         }
 
-        var projectsForUsers = _db.Projects.Include(p => p.AllUsers)
+        var projectsForUsers = await _db.Projects.Include(p => p.AllUsers)
             .Where(p => p.AllUsers.Any(u => u.Id == userId))
-            .Select(p => p.ToDto());
+            .Select(p => p.ToDto()).ToListAsync();
         result.AddRange(projectsForUsers);
 
         return result;
     }
 
-    public async Task<IEnumerable<ProjectModel>> GetAll()
+    public IQueryable<ProjectModel> GetAll()
     {
-        return await _db.Projects.Select(p => p.ToDto()).ToListAsync();
+        return _db.Projects.Select(p => p.ToDto());
     }
 
     public bool Update(int id, ProjectModel model)
