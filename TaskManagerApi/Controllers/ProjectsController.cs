@@ -112,8 +112,8 @@ namespace TaskManagerApi.Controllers
                     if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
                     {
                         var project = _projectsService.Get(id);
-                        var usersForAdd = _usersService.GetAllByIds();
-                        project.AllUsers.AddRange();
+                        var usersForAdd = _usersService.GetAllByIds(usersIds);
+                        project.AllUsers.AddRange(usersForAdd);
                     }
                     return Unauthorized();
                 }
