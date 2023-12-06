@@ -111,10 +111,27 @@ namespace TaskManagerApi.Controllers
                 {
                     if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
                     {
-                        var project = _projectsService.Get(id);
-                        var usersForAdd = _usersService.GetAllByIds(usersIds);
-                        project.AllUsers.AddRange(usersForAdd);
-                        _db.SaveChanges();
+                        _projectsService.AddUsersToProject(id, usersIds);
+                        return Ok();
+                    }
+                    return Unauthorized();
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPatch("{id}/users/remove")]
+        public IActionResult RemoveUsersFromProject(int id, [FromBody] List<int> usersIds)
+        {
+            if (usersIds != null)
+            {
+                var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+                if (user != null)
+                {
+                    if (user.Status == UserStatus.Admin || user.Status == UserStatus.Editor)
+                    {
+                        _projectsService.AddUsersToProject(id, usersIds);
+                        return Ok();
                     }
                     return Unauthorized();
                 }

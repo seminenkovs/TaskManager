@@ -93,4 +93,15 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         }
         _db.SaveChanges();
     }
+
+    public void RemoveUsersFromProject(int id, List<int> usersIds)
+    {
+        Project project = _db.Projects.FirstOrDefault(p => p.Id == id);
+        foreach (var usersId in usersIds)
+        {
+            var user = _db.Users.FirstOrDefault(u => u.Id == usersId);
+            project.AllUsers.Remove(user);
+        }
+        _db.SaveChanges();
+    }
 }
