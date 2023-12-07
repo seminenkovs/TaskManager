@@ -32,7 +32,14 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
 
     public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        bool result = DoAction(delegate ()
+        {
+            Desk newDesk = _db.Desks.FirstOrDefault(d => d.Id == id);
+            _db.Desks.Remove(newDesk);
+            _db.SaveChanges();
+        });
+
+        return result;
     }
 
     public DeskModel Get(int id)
