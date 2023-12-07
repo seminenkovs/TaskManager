@@ -14,6 +14,12 @@ namespace TaskManagerApi.Models
         public Project Project { get; set; }
         public List<Task> Tasks { get; set; } = new List<Task>();
 
+        public Desk(DeskModel deskModel) : base(deskModel)
+        {
+            Id = deskModel.Id;
+            AdminId = deskModel.AdminId;
+        }
+
         public DeskModel ToDto()
         {
             return new DeskModel()
