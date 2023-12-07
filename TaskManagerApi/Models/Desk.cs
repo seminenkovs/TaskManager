@@ -14,10 +14,19 @@ namespace TaskManagerApi.Models
         public Project Project { get; set; }
         public List<Task> Tasks { get; set; } = new List<Task>();
 
+        public Desk() { }
+
         public Desk(DeskModel deskModel) : base(deskModel)
         {
             Id = deskModel.Id;
             AdminId = deskModel.AdminId;
+            IsPrivate = deskModel.IsPrivate;
+            ProjectId = deskModel.ProjectId;
+
+            if (deskModel.Columns.Any())
+            {
+                Columns = "[" + string.Join(",", deskModel.Columns) + "]";
+            }
         }
 
         public DeskModel ToDto()

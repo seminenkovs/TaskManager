@@ -15,7 +15,14 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
 
     public bool Create(DeskModel model)
     {
-        throw new NotImplementedException();
+        bool result = DoAction(delegate ()
+        {
+            Desk newDesk = new Desk(model);
+            _db.Desks.Add(newDesk);
+            _db.SaveChanges();
+        });
+
+        return result;
     }
 
     public bool Update(int id, DeskModel model)
