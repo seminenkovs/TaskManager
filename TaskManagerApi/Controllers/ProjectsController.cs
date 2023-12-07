@@ -27,7 +27,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProjectModel>> Get()
+        public async Task<IEnumerable<CommonModel>> Get()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             if (user.Status == UserStatus.Admin)
@@ -62,6 +62,7 @@ namespace TaskManagerApi.Controllers
                         {
                             admin = new ProjectAdmin(user);
                             _db.ProjectAdmins.Add(admin);
+                            _db.SaveChanges();
                         }
                         projectModel.AdminId = admin.Id;
 
@@ -74,7 +75,7 @@ namespace TaskManagerApi.Controllers
             return BadRequest();
         }
 
-        [HttpPatch]
+        [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromBody] ProjectModel projectModel)
         {
             if (projectModel != null)
@@ -93,7 +94,7 @@ namespace TaskManagerApi.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             bool result = _projectsService.Delete(id);
