@@ -26,27 +26,33 @@ namespace TaskManagerApi.Controllers
         public async Task<IEnumerable<CommonModel>> GetDesksForCurrentUser()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
-            return new string[] { "value1", "value2" };
+            
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            
+        }
+
+        [HttpGet("project/{projectId}")]
+        public IActionResult GetProjectDesks(int projectId)
+        {
+            
         }
 
         [HttpPost]
-        public void Create([FromBody] DeskModel deskModel)
+        public IActionResult Create([FromBody] DeskModel deskModel)
         {
         }
 
         [HttpPatch("{id}")]
-        public void Put(int id, [FromBody] DeskModel deskModel)
+        public void Update(int id, [FromBody] DeskModel deskModel)
         {
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
         }
     }
