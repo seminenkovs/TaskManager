@@ -89,7 +89,10 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         foreach (var usersId in usersIds)
         {
             var user = _db.Users.FirstOrDefault(u => u.Id == usersId);
-            project.AllUsers.Add(user);
+            if (project.AllUsers.Contains(user) == false)
+            {
+                project.AllUsers.Add(user);
+            }
         }
         _db.SaveChanges();
     }

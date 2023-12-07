@@ -28,6 +28,7 @@ namespace TaskManagerApi.Models
                 Columns = this.Columns?.Replace("[", "")
                     .Replace("]", "")
                     .Split(","),
+                ProjectId = this.ProjectId
             };
         }
     }
