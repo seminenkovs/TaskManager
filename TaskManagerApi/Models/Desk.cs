@@ -1,4 +1,5 @@
 ﻿using TaskManager.Common.Models;
+using Newtonsoft.Json;
 
 namespace TaskManagerApi.Models
 {
@@ -25,7 +26,7 @@ namespace TaskManagerApi.Models
 
             if (deskModel.Columns.Any())
             {
-                Columns = "[" + string.Join(",", deskModel.Columns) + "]";
+                Columns = JsonConvert.SerializeObject(deskModel.Columns);
             }
         }
 
@@ -40,9 +41,7 @@ namespace TaskManagerApi.Models
                 Photo = this.Photo,
                 AdminId = this.AdminId,
                 IsPrivate = this.IsPrivate,
-                Columns = this.Columns?.Replace("[", "")
-                    .Replace("]", "")
-                    .Split(","),
+                Columns = JsonConvert.DeserializeObject<string[]>(this.Columns);
                 ProjectId = this.ProjectId
             };
         }

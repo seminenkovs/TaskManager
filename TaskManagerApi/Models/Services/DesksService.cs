@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 
@@ -36,7 +37,7 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
             desk.AdminId = model.AdminId;
             desk.IsPrivate = model.IsPrivate;
             desk.ProjectId = model.ProjectId;
-            desk.Columns = "[" + string.Join(",", model.Columns) + "]";
+            desk.Columns = JsonConvert.SerializeObject(model.Columns);
 
             _db.Desks.Update(desk);
             _db.SaveChanges();
