@@ -1,4 +1,5 @@
-﻿using TaskManager.Common.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
@@ -29,7 +30,13 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
 
     public DeskModel Get(int id)
     {
-        Desk desk = _db.Desks.FirstOrDefault(d => d.Id == id);
-        return desk?.ToDto();
+        Desk desk = _db.Desks.Include(d => d.Tasks)
+            .FirstOrDefault(d => d.Id == id);
+        var deskModel = desk?.ToDto();
+        if (deskModel != null)
+        {
+            deskModel.TasksIds = desk.Tasks.Select(t => t.Id).ToList();
+        }
+        return deskModel;
     }
 }

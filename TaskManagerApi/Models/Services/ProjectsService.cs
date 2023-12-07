@@ -41,11 +41,12 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
         Project project = _db.Projects.Include(p => p.AllUsers)
             .Include(p => p.AllDesks)
             .FirstOrDefault(p => p.Id == id);
-        //get all users from projects
+        
         var projectModel = project?.ToDto();
         if (projectModel != null)
         {
             projectModel.AllUsersIds = project.AllUsers.Select(u => u.Id).ToList();
+            projectModel.AllDesksIds = project.AllDesks.Select(d => d.Id).ToList();
         }
         return projectModel;
     }
