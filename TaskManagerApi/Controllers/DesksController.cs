@@ -41,7 +41,9 @@ namespace TaskManagerApi.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            
+            var desk = _desksService.Get(id);
+            return desk == null ? NotFound() : Ok(desk);
+
         }
 
         [HttpGet("project/{projectId}")]
