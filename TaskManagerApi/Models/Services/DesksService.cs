@@ -73,4 +73,11 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
     {
         return _db.Desks.Select(d => d.ToDto() as CommonModel);
     }
+
+    public IQueryable<CommonModel> GetProjectDesks(int projectId, int userId)
+    {
+        return _db.Desks.Where(d => (d.ProjectId == projectId && 
+                (d.AdminId == userId || d.IsPrivate == false)))
+            .Select(d => d.ToDto() as CommonModel);
+    }
 }
