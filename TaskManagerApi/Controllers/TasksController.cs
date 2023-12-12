@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagerApi.Models.Data;
+using TaskManagerApi.Models.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +12,17 @@ namespace TaskManagerApi.Controllers
     [Authorize]
     public class TasksController : ControllerBase
     {
+        private readonly ApplicationContext _db;
+        private readonly UsersService _usersService;
+        private readonly TasksService _tasksService;
+
+        public TasksController(ApplicationContext db)
+        {
+            _db = db;
+            _usersService = new UsersService(db);
+            _tasksService = new TasksService(db);
+        }
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
