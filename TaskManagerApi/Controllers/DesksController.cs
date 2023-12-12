@@ -18,17 +18,21 @@ namespace TaskManagerApi.Controllers
         private readonly DesksService _desksService;
 
 
-        public DesksController(ApplicationContext db, UsersService usersService, DesksService desksService)
+        public DesksController(ApplicationContext db)
         {
             _db = db;
-            _usersService = usersService;
-            _desksService = desksService;
+            _usersService = new UsersService(db);
+            _desksService = new DesksService(db);
         }
 
         [HttpGet]
         public async Task<IEnumerable<CommonModel>> GetDesksForCurrentUser()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                var models = _desksService.GetAll();
+            }
             
         }
 
