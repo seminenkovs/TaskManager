@@ -18,7 +18,6 @@ namespace TaskManagerApi.Controllers
         private readonly UsersService _usersService;
         private readonly DesksService _desksService;
 
-
         public DesksController(ApplicationContext db)
         {
             _db = db;
@@ -47,24 +46,56 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet("project/{projectId}")]
-        public IActionResult GetProjectDesks(int projectId)
+        public async Task<IEnumerable<CommonModel>> GetProjectDesks(int projectId)
         {
-            
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                return await _desksService.GetProjectDesks(projectId, user.Id).ToListAsync();
+            }
+
+            return Array.Empty<CommonModel>();
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] DeskModel deskModel)
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (deskModel != null)
+                {
+                    bool result = _desksService.Create(deskModel);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+
+            return Unauthorized();
         }
 
         [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromBody] DeskModel deskModel)
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (deskModel != null)
+                {
+                    bool result = _desksService.Update(id, deskModel);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+
+            return Unauthorized();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            bool result = _desksService.Delete(id);
+            return result ? Ok() : NotFound();
         }
     }
 }
