@@ -41,7 +41,7 @@ namespace TaskManagerApi.Models
                 Photo = this.Photo,
                 AdminId = this.AdminId,
                 IsPrivate = this.IsPrivate,
-                Columns = JsonConvert.DeserializeObject<string[]>(this.Columns);
+                Columns = JsonConvert.DeserializeObject<string[]>(this.Columns),
                 ProjectId = this.ProjectId
             };
         }

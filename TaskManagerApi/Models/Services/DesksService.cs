@@ -36,7 +36,6 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
             desk.Photo = model.Photo;
             desk.AdminId = model.AdminId;
             desk.IsPrivate = model.IsPrivate;
-            desk.ProjectId = model.ProjectId;
             desk.Columns = JsonConvert.SerializeObject(model.Columns);
 
             _db.Desks.Update(desk);

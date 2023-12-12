@@ -45,7 +45,7 @@ namespace TaskManagerApi.Controllers
 
         }
 
-        [HttpGet("project/{projectId}")]
+        [HttpGet("project")]
         public async Task<IEnumerable<CommonModel>> GetProjectDesks(int projectId)
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
