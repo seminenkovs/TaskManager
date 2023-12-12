@@ -47,7 +47,7 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public void Update(int id, [FromBody] DeskModel deskModel)
+        public IActionResult Update(int id, [FromBody] DeskModel deskModel)
         {
         }
 

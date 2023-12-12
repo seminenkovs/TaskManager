@@ -72,7 +72,7 @@ public class ProjectsService : AbstractionService, ICommonService<ProjectModel>
 
     public IQueryable<CommonModel> GetAll()
     {
-        return _db.Projects.Select(p => p.ToDto());
+        return _db.Projects.Select(p => p.ToDto() as CommonModel);
     }
 
     public bool Update(int id, ProjectModel model)

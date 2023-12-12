@@ -68,4 +68,9 @@ public class DesksService : AbstractionService, ICommonService<DeskModel>
         }
         return deskModel;
     }
+
+    public IQueryable<CommonModel> GetAll()
+    {
+        return _db.Desks.Select(d => d.ToDto() as CommonModel);
+    }
 }
