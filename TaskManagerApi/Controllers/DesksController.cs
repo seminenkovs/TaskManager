@@ -15,11 +15,14 @@ namespace TaskManagerApi.Controllers
     {
         private readonly ApplicationContext _db;
         private readonly UsersService _usersService;
+        private readonly DesksService _desksService;
 
-        public DesksController(ApplicationContext db, UsersService usersService)
+
+        public DesksController(ApplicationContext db, UsersService usersService, DesksService desksService)
         {
             _db = db;
             _usersService = usersService;
+            _desksService = desksService;
         }
 
         [HttpGet]
