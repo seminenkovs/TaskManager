@@ -40,11 +40,6 @@ namespace TaskManagerApi.Controllers
         {
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
