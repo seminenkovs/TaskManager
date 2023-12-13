@@ -17,7 +17,6 @@ namespace TaskManagerApi.Controllers
         private readonly ApplicationContext _db;
         private readonly UsersService _usersService;
 
-
         public AccountController(ApplicationContext db)
         {
             _db = db;

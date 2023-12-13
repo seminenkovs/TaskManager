@@ -8,5 +8,9 @@ namespace TaskManager.Client.Services
 {
     class UsersRequestService
     {
+        public void GetToken(string userName, string password)
+        {
+
+        }
     }
 }
