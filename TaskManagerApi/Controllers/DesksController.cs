@@ -26,22 +26,23 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommonModel>> GetDesksForCurrentUser()
+        public async Task<ActionResult<IEnumerable<CommonModel>>> GetDesksForCurrentUser()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             if (user != null)
             {
-                return await _desksService.GetAll(user.Id).ToListAsync();
+                var result = await _desksService.GetAll(user.Id).ToListAsync();
+                return result == null ? NoContent() : Ok(result);
             }
 
-            return Array.Empty<CommonModel>();
+            return Unauthorized(Array.Empty<CommonModel>());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var desk = _desksService.Get(id);
-            return desk == null ? NotFound() : Ok(desk);
+            return desk == null ? NoContent() : Ok(desk);
 
         }
 
