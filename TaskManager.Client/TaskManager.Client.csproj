@@ -12,7 +12,6 @@
     <Folder Include="Models\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
