@@ -66,4 +66,9 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
         Task task = _db.Tasks.FirstOrDefault(t => t.Id == id);
         return task?.ToDto();
     }
+
+    public IQueryable<TaskModel> GetAll(int deskId)
+    {
+        return _db.Tasks.Where(t => t.DeskId == deskId).Select(t => t.ToDto());
+    }
 }

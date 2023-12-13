@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 using TaskManagerApi.Models.Services;
 
@@ -24,9 +26,15 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<CommonModel>> Get(int deskId)
         {
-            
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                return await _tasksService.GetAll(user.Id).ToListAsync();
+            }
+
+            return Array.Empty<CommonModel>();
         }
 
         [HttpGet("{id}")]
