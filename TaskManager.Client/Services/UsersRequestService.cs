@@ -10,7 +10,7 @@ using TaskManager.Client.Models;
 
 namespace TaskManager.Client.Services
 {
-    class UsersRequestService
+    public class UsersRequestService
     {
         private const string HOST = "http://localhost:5129/api/";
 

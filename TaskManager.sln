@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Common.Models",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Client", "TaskManager.Client\TaskManager.Client.csproj", "{2402397F-E5BB-4188-8506-45DC0C3C0EAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.ClientTests", "TaskManager.ClientTests\TaskManager.ClientTests.csproj", "{065A4254-DB2A-476B-896B-8D29C499DFE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2402397F-E5BB-4188-8506-45DC0C3C0EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2402397F-E5BB-4188-8506-45DC0C3C0EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2402397F-E5BB-4188-8506-45DC0C3C0EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065A4254-DB2A-476B-896B-8D29C499DFE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065A4254-DB2A-476B-896B-8D29C499DFE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065A4254-DB2A-476B-896B-8D29C499DFE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065A4254-DB2A-476B-896B-8D29C499DFE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
