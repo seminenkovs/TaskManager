@@ -68,6 +68,23 @@ namespace TaskManagerApi.Controllers
             return Unauthorized();
         }
 
+        [HttpPatch("{id}")]
+        public IActionResult Update(int id, [FromBody] TaskModel taskModel)
+        {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (taskModel != null)
+                {
+                    bool result = _tasksService.Update(id, taskModel);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+
+            return Unauthorized();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
