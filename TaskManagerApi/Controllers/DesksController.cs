@@ -65,6 +65,7 @@ namespace TaskManagerApi.Controllers
             {
                 if (deskModel != null)
                 {
+                    deskModel.AdminId = user.Id;
                     bool result = _desksService.Create(deskModel);
                     return result ? Ok() : NotFound();
                 }

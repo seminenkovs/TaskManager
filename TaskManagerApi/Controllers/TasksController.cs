@@ -39,13 +39,28 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Create([FromBody] TaskModel taskModel)
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (taskModel != null)
+                {
+                    taskModel.CreatorId = user.Id;
+                    bool result = _tasksService.Create(taskModel);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+
+            return Unauthorized();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var result = _tasksService.Delete(id);
+            return result ? Ok() : NotFound();
         }
     }
 }
