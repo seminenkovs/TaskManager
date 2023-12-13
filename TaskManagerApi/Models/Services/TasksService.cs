@@ -1,4 +1,5 @@
-﻿using TaskManager.Common.Models;
+﻿using Newtonsoft.Json;
+using TaskManager.Common.Models;
 using TaskManagerApi.Models.Data;
 
 namespace TaskManagerApi.Models.Services;
@@ -26,7 +27,26 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
 
     public bool Update(int id, TaskModel model)
     {
-        throw new NotImplementedException();
+        bool result = DoAction(delegate ()
+        {
+            Task task = _db.Tasks.FirstOrDefault(d => d.Id == id);
+
+            task.Name = model.Name;
+            task.Description = model.Description;
+            task.CreationDate = model.CreationDate;
+            task.Photo = model.Photo;
+            task.StartDate = model.CreationDate;
+            task.EndDate = model.EndDate;
+            task.File = model.File;
+            task.DeskId = model.DeskId;
+            task.Column = model.Column;
+            task.CreatorId = model.CreatorId;
+            task.ExecutorId = model.ExecutorId;
+
+            _db.Tasks.Update(task);
+            _db.SaveChanges();
+        });
+        return result;
     }
 
     public bool Delete(int id)
@@ -44,6 +64,6 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
     public TaskModel Get(int id)
     {
         Task task = _db.Tasks.FirstOrDefault(t => t.Id == id);
-        return task.ToDto();
+        return task?.ToDto();
     }
 }
