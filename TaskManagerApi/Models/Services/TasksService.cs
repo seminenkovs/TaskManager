@@ -43,6 +43,7 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
 
     public TaskModel Get(int id)
     {
-        throw new NotImplementedException();
+        Task task = _db.Tasks.FirstOrDefault(t => t.Id == id);
+        return task.ToDto();
     }
 }
