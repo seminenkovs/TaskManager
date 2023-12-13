@@ -26,15 +26,16 @@ namespace TaskManagerApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommonModel>> Get(int deskId)
+        public async Task<IEnumerable<CommonModel>> GetTasksByDesk(int deskId)
         {
             return await _tasksService.GetAll(deskId).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-           
+           var task = _tasksService.Get(id);
+           return task == null ? NotFound() : Ok(task);
         }
 
         [HttpPost]
