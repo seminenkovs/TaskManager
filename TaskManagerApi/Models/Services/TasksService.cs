@@ -14,7 +14,14 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
 
     public bool Create(TaskModel model)
     {
-        throw new NotImplementedException();
+        bool result = DoAction(delegate ()
+        {
+            Task newTask = new Task(model);
+            _db.Tasks.Add(newTask);
+            _db.SaveChanges();
+        });
+
+        return result;
     }
 
     public bool Update(int id, TaskModel model)
