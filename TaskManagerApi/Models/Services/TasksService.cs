@@ -31,7 +31,14 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
 
     public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        bool result = DoAction(delegate ()
+        {
+            Task task = _db.Tasks.FirstOrDefault(t => t.Id == id);
+            _db.Tasks.Remove(task);
+            _db.SaveChanges();
+        });
+
+        return result;
     }
 
     public TaskModel Get(int id)
