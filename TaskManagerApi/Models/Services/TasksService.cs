@@ -67,6 +67,13 @@ public class TasksService : AbstractionService, ICommonService<TaskModel>
         return task?.ToDto();
     }
 
+    public IQueryable<CommonModel> GetTasksForUser(int userId)
+    {
+        return _db.Tasks.Where(t => t.CreatorId == userId || t.ExecutorId == userId)
+            .Select(t => t.ToDto() as CommonModel);
+       
+    }
+
     public IQueryable<CommonModel> GetAll(int deskId)
     {
         return _db.Tasks.Where(t => t.DeskId == deskId).Select(t => t.ToDto() as CommonModel);

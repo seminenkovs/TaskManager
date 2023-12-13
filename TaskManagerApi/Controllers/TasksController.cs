@@ -31,6 +31,18 @@ namespace TaskManagerApi.Controllers
             return await _tasksService.GetAll(deskId).ToListAsync();
         }
 
+        [HttpGet("user")]
+        public async Task<IEnumerable<CommonModel>> GetTasksForCurrentUser()
+        {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                return ;
+            }
+
+            return Unauthorized();
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
